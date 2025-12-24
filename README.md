@@ -2,7 +2,7 @@
 
 An interactive web application for visualizing graph algorithms. Built with React, TypeScript, and Tailwind CSS.
 
-![Graph Algorithm Visualizer](https://via.placeholder.com/800x400?text=Graph+Algorithm+Visualizer)
+![Graph Algorithm Visualizer]([https://via.placeholder.com/800x400?text=Graph+Algorithm+Visualizer](https://hambozo17.github.io/GraphAlgorithmVisualize/))
 
 ## ✨ Features
 
