@@ -1,4 +1,3 @@
-import React from 'react';
 import { Graph } from '../types';
 import { getAdjacencyMatrix, getDistanceMatrix } from '../utils/graphUtils';
 
