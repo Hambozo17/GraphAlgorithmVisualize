@@ -1,0 +1,1216 @@
+\documentclass[12pt,a4paper]{report}
+
+% ============================================
+% PACKAGES
+% ============================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{setspace}
+\usepackage{parskip}
+
+% ============================================
+% PAGE SETUP
+% ============================================
+\geometry{
+    top=2.5cm,
+    bottom=2.5cm,
+    left=3cm,
+    right=2.5cm
+}
+
+\setstretch{1.5}
+
+% ============================================
+% COLORS
+% ============================================
+\definecolor{primarycolor}{RGB}{99, 102, 241}
+\definecolor{accentcolor}{RGB}{16, 185, 129}
+\definecolor{codebackground}{RGB}{15, 23, 42}
+\definecolor{codecomment}{RGB}{148, 163, 184}
+\definecolor{codestring}{RGB}{34, 197, 94}
+\definecolor{codekeyword}{RGB}{249, 115, 22}
+
+% ============================================
+% CODE LISTING STYLE
+% ============================================
+\lstdefinestyle{typescript}{
+    backgroundcolor=\color{codebackground},
+    commentstyle=\color{codecomment},
+    keywordstyle=\color{codekeyword}\bfseries,
+    stringstyle=\color{codestring},
+    basicstyle=\ttfamily\footnotesize\color{white},
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    numberstyle=\tiny\color{codecomment},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    language=Java,
+    morekeywords={const, let, function, interface, type, export, import, from, return, if, else, for, while, switch, case, break, continue, default, async, await, try, catch, throw, new, class, extends, implements, public, private, protected, static, void, boolean, number, string, any, null, undefined, true, false}
+}
+
+\lstset{style=typescript}
+
+% ============================================
+% HYPERLINK SETUP
+% ============================================
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primarycolor,
+    filecolor=primarycolor,
+    urlcolor=primarycolor,
+    citecolor=primarycolor,
+    pdftitle={Graph Algorithm Visualizer - Project Report},
+    pdfauthor={Mohamed Mohsen, Farah Khaled, Omar Ahmed}
+}
+
+% ============================================
+% HEADER AND FOOTER
+% ============================================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{CSCI208}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% ============================================
+% TITLE FORMAT
+% ============================================
+\titleformat{\chapter}[display]
+{\normalfont\huge\bfseries\color{primarycolor}}
+{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+
+\titleformat{\section}
+{\normalfont\Large\bfseries\color{primarycolor}}
+{\thesection}{1em}{}
+
+\titleformat{\subsection}
+{\normalfont\large\bfseries}
+{\thesubsection}{1em}{}
+
+% ============================================
+% DOCUMENT BEGIN
+% ============================================
+\begin{document}
+
+% ============================================
+% TITLE PAGE
+% ============================================
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    
+    {\Large\textbf{Pharos University in Alexandria}}\\[0.3cm]
+    {\large Faculty of Computer Science and Artificial Intelligence}\\[2cm]
+    
+    \rule{\linewidth}{0.5mm}\\[0.5cm]
+    {\Huge\bfseries\color{primarycolor} Graph Algorithm Visualizer}\\[0.3cm]
+    {\Large An Interactive Web-Based Tool for Visualizing Graph Traversal and Shortest Path Algorithms}\\[0.3cm]
+    \rule{\linewidth}{0.5mm}\\[2cm]
+    
+    {\Large\textbf{CSCI208: Design and Analysis of Algorithms}}\\[1cm]
+    
+    \begin{minipage}{0.45\textwidth}
+        \begin{flushleft}
+            \large\textbf{Supervised by:}\\[0.3cm]
+            Dr. Shereen Aly\\
+            Eng. Ganat Elsayed\\
+            Eng. Bassant Ahmed Farouk
+        \end{flushleft}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \begin{flushright}
+            \large\textbf{Prepared by:}\\[0.3cm]
+            Mohamed Mohsen (221001411)\\
+            Farah Khaled (221001643)\\
+            Omar Ahmed (221001335)
+        \end{flushright}
+    \end{minipage}\\[3cm]
+    
+    {\large December 2024}\\[1cm]
+    
+    \vfill
+\end{titlepage}
+
+% ============================================
+% ABSTRACT
+% ============================================
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+Graph Algorithm Visualizer is an interactive web-based educational tool designed to help students and developers understand fundamental graph algorithms through real-time visualization. The application provides an intuitive interface for creating, editing, and manipulating graphs while observing step-by-step execution of various traversal and shortest path algorithms.
+
+This project implements five key algorithms: Breadth-First Search (BFS), Depth-First Search (DFS), Dijkstra's Algorithm, Bellman-Ford Algorithm, and A* Search Algorithm. Each algorithm is visualized with color-coded nodes and edges, animation controls, and detailed step logs that explain the algorithm's decision-making process at each iteration.
+
+The application is built using modern web technologies including React, TypeScript, Vite, and Tailwind CSS, ensuring a responsive, performant, and maintainable codebase. The interactive canvas supports pan and zoom functionality, allowing users to work with graphs of varying sizes and complexity.
+
+\textbf{Keywords:} Graph Algorithms, Visualization, BFS, DFS, Dijkstra, Bellman-Ford, A*, React, TypeScript, Web Application
+
+% ============================================
+% TABLE OF CONTENTS
+% ============================================
+\tableofcontents
+\listoffigures
+\listoftables
+
+% ============================================
+% CHAPTER 1: INTRODUCTION
+% ============================================
+\chapter{Introduction}
+
+\section{Background and Motivation}
+
+Graph theory is a fundamental area of computer science with applications ranging from social networks and routing protocols to recommendation systems and artificial intelligence. Understanding graph algorithms is crucial for any computer science student, yet the abstract nature of these algorithms often makes them challenging to grasp through textbook descriptions alone.
+
+Traditional methods of teaching graph algorithms rely heavily on static diagrams and pseudocode, which fail to capture the dynamic nature of algorithm execution. Students often struggle to visualize how data structures change over time, how decisions are made at each step, and how different algorithms compare in their approach to solving similar problems.
+
+\section{Problem Statement}
+
+The primary challenges in learning graph algorithms include:
+
+\begin{itemize}
+    \item \textbf{Abstract Representation:} Graph algorithms operate on abstract data structures that are difficult to visualize mentally.
+    \item \textbf{Dynamic Nature:} Understanding how the state changes at each step requires significant cognitive effort.
+    \item \textbf{Comparative Analysis:} Comparing the behavior of different algorithms on the same graph is challenging without proper tools.
+    \item \textbf{Lack of Interactivity:} Most educational resources provide only passive learning experiences.
+\end{itemize}
+
+\section{Objectives}
+
+The Graph Algorithm Visualizer project aims to:
+
+\begin{enumerate}
+    \item Provide an interactive platform for creating and manipulating graphs
+    \item Visualize the step-by-step execution of fundamental graph algorithms
+    \item Enable comparison between different algorithms on the same graph
+    \item Offer detailed explanations and complexity analysis for each algorithm
+    \item Create an engaging and intuitive user experience
+\end{enumerate}
+
+\section{Scope}
+
+This project covers the following algorithms:
+
+\begin{itemize}
+    \item \textbf{Graph Traversal:} BFS and DFS
+    \item \textbf{Shortest Path:} Dijkstra's Algorithm, Bellman-Ford Algorithm, and A* Search
+\end{itemize}
+
+The application supports both directed and undirected graphs, as well as weighted and unweighted edges.
+
+% ============================================
+% CHAPTER 2: THEORETICAL BACKGROUND
+% ============================================
+\chapter{Theoretical Background}
+
+\section{Graph Fundamentals}
+
+\subsection{Definition}
+
+A graph $G = (V, E)$ consists of:
+\begin{itemize}
+    \item $V$: A finite set of vertices (nodes)
+    \item $E$: A set of edges connecting pairs of vertices
+\end{itemize}
+
+\subsection{Types of Graphs}
+
+\begin{table}[H]
+    \centering
+    \caption{Types of Graphs}
+    \begin{tabular}{lp{10cm}}
+        \toprule
+        \textbf{Type} & \textbf{Description} \\
+        \midrule
+        Directed Graph & Edges have a direction from source to target \\
+        Undirected Graph & Edges have no direction (bidirectional) \\
+        Weighted Graph & Edges have associated numerical weights \\
+        Unweighted Graph & All edges have equal weight (typically 1) \\
+        Connected Graph & There exists a path between every pair of vertices \\
+        Cyclic Graph & Contains at least one cycle \\
+        Acyclic Graph & Contains no cycles \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Graph Representations}
+
+\subsubsection{Adjacency Matrix}
+
+An adjacency matrix $A$ is a $|V| \times |V|$ matrix where:
+\[
+A[i][j] = \begin{cases}
+w_{ij} & \text{if edge exists from } v_i \text{ to } v_j \\
+0 \text{ or } \infty & \text{otherwise}
+\end{cases}
+\]
+
+\textbf{Space Complexity:} $O(V^2)$
+
+\subsubsection{Adjacency List}
+
+An adjacency list stores, for each vertex, a list of its adjacent vertices.
+
+\textbf{Space Complexity:} $O(V + E)$
+
+\section{Breadth-First Search (BFS)}
+
+\subsection{Algorithm Description}
+
+BFS explores a graph level by level, visiting all neighbors of a node before moving to their neighbors. It uses a queue data structure to maintain the order of exploration.
+
+\subsection{Pseudocode}
+
+\begin{algorithm}[H]
+\caption{Breadth-First Search}
+\begin{algorithmic}[1]
+\Procedure{BFS}{$G, s$}
+    \State Create queue $Q$
+    \State Mark $s$ as visited
+    \State Enqueue $s$ into $Q$
+    \While{$Q$ is not empty}
+        \State $u \gets$ Dequeue from $Q$
+        \For{each neighbor $v$ of $u$}
+            \If{$v$ is not visited}
+                \State Mark $v$ as visited
+                \State Enqueue $v$ into $Q$
+            \EndIf
+        \EndFor
+    \EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Complexity Analysis}
+
+\begin{table}[H]
+    \centering
+    \caption{BFS Complexity}
+    \begin{tabular}{ll}
+        \toprule
+        \textbf{Metric} & \textbf{Complexity} \\
+        \midrule
+        Time Complexity & $O(V + E)$ \\
+        Space Complexity & $O(V)$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Applications}
+\begin{itemize}
+    \item Finding shortest path in unweighted graphs
+    \item Level-order traversal
+    \item Finding connected components
+    \item Web crawling
+    \item Social network analysis
+\end{itemize}
+
+\section{Depth-First Search (DFS)}
+
+\subsection{Algorithm Description}
+
+DFS explores a graph by going as deep as possible along each branch before backtracking. It uses a stack (or recursion) to maintain the order of exploration.
+
+\subsection{Pseudocode}
+
+\begin{algorithm}[H]
+\caption{Depth-First Search}
+\begin{algorithmic}[1]
+\Procedure{DFS}{$G, s$}
+    \State Create stack $S$
+    \State Push $s$ onto $S$
+    \While{$S$ is not empty}
+        \State $u \gets$ Pop from $S$
+        \If{$u$ is not visited}
+            \State Mark $u$ as visited
+            \For{each neighbor $v$ of $u$}
+                \State Push $v$ onto $S$
+            \EndFor
+        \EndIf
+    \EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Complexity Analysis}
+
+\begin{table}[H]
+    \centering
+    \caption{DFS Complexity}
+    \begin{tabular}{ll}
+        \toprule
+        \textbf{Metric} & \textbf{Complexity} \\
+        \midrule
+        Time Complexity & $O(V + E)$ \\
+        Space Complexity & $O(V)$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Applications}
+\begin{itemize}
+    \item Topological sorting
+    \item Detecting cycles
+    \item Finding strongly connected components
+    \item Maze solving
+    \item Path finding
+\end{itemize}
+
+\section{Dijkstra's Algorithm}
+
+\subsection{Algorithm Description}
+
+Dijkstra's algorithm finds the shortest path from a source vertex to all other vertices in a weighted graph with non-negative edge weights. It uses a greedy approach, always selecting the vertex with the minimum distance.
+
+\subsection{Pseudocode}
+
+\begin{algorithm}[H]
+\caption{Dijkstra's Algorithm}
+\begin{algorithmic}[1]
+\Procedure{Dijkstra}{$G, s$}
+    \State Initialize $dist[v] \gets \infty$ for all $v \in V$
+    \State $dist[s] \gets 0$
+    \State Create priority queue $Q$ with all vertices
+    \While{$Q$ is not empty}
+        \State $u \gets$ Extract-Min from $Q$
+        \For{each neighbor $v$ of $u$}
+            \If{$dist[u] + w(u,v) < dist[v]$}
+                \State $dist[v] \gets dist[u] + w(u,v)$
+                \State $prev[v] \gets u$
+                \State Decrease-Key($Q$, $v$, $dist[v]$)
+            \EndIf
+        \EndFor
+    \EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Complexity Analysis}
+
+\begin{table}[H]
+    \centering
+    \caption{Dijkstra's Algorithm Complexity}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{Implementation} & \textbf{Time Complexity} & \textbf{Space Complexity} \\
+        \midrule
+        Array & $O(V^2)$ & $O(V)$ \\
+        Binary Heap & $O((V + E) \log V)$ & $O(V)$ \\
+        Fibonacci Heap & $O(E + V \log V)$ & $O(V)$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Limitations}
+\begin{itemize}
+    \item Does not work with negative edge weights
+    \item May not find shortest path in graphs with negative cycles
+\end{itemize}
+
+\section{Bellman-Ford Algorithm}
+
+\subsection{Algorithm Description}
+
+The Bellman-Ford algorithm finds the shortest paths from a source vertex to all other vertices, even when edge weights are negative. It can also detect negative cycles.
+
+\subsection{Pseudocode}
+
+\begin{algorithm}[H]
+\caption{Bellman-Ford Algorithm}
+\begin{algorithmic}[1]
+\Procedure{BellmanFord}{$G, s$}
+    \State Initialize $dist[v] \gets \infty$ for all $v \in V$
+    \State $dist[s] \gets 0$
+    \For{$i = 1$ to $|V| - 1$}
+        \For{each edge $(u, v) \in E$}
+            \If{$dist[u] + w(u,v) < dist[v]$}
+                \State $dist[v] \gets dist[u] + w(u,v)$
+                \State $prev[v] \gets u$
+            \EndIf
+        \EndFor
+    \EndFor
+    \For{each edge $(u, v) \in E$}
+        \If{$dist[u] + w(u,v) < dist[v]$}
+            \State \textbf{report} "Negative cycle detected"
+        \EndIf
+    \EndFor
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Complexity Analysis}
+
+\begin{table}[H]
+    \centering
+    \caption{Bellman-Ford Complexity}
+    \begin{tabular}{ll}
+        \toprule
+        \textbf{Metric} & \textbf{Complexity} \\
+        \midrule
+        Time Complexity & $O(V \cdot E)$ \\
+        Space Complexity & $O(V)$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Advantages over Dijkstra}
+\begin{itemize}
+    \item Handles negative edge weights
+    \item Can detect negative cycles
+    \item Simpler implementation
+\end{itemize}
+
+\section{A* Search Algorithm}
+
+\subsection{Algorithm Description}
+
+A* is an informed search algorithm that uses heuristics to guide its search. It combines the actual cost from the start ($g$) with an estimated cost to the goal ($h$) to prioritize nodes.
+
+The evaluation function is:
+\[
+f(n) = g(n) + h(n)
+\]
+
+where:
+\begin{itemize}
+    \item $g(n)$: Actual cost from start to node $n$
+    \item $h(n)$: Heuristic estimate from node $n$ to goal
+    \item $f(n)$: Total estimated cost through node $n$
+\end{itemize}
+
+\subsection{Heuristics}
+
+For A* to find the optimal path, the heuristic must be \textbf{admissible} (never overestimate) and ideally \textbf{consistent}.
+
+Common heuristics:
+\begin{itemize}
+    \item \textbf{Euclidean Distance:} $h(n) = \sqrt{(x_n - x_g)^2 + (y_n - y_g)^2}$
+    \item \textbf{Manhattan Distance:} $h(n) = |x_n - x_g| + |y_n - y_g|$
+\end{itemize}
+
+\subsection{Pseudocode}
+
+\begin{algorithm}[H]
+\caption{A* Search Algorithm}
+\begin{algorithmic}[1]
+\Procedure{AStar}{$G, s, goal$}
+    \State Initialize open set with $s$
+    \State $g[s] \gets 0$
+    \State $f[s] \gets h(s, goal)$
+    \While{open set is not empty}
+        \State $u \gets$ node in open set with lowest $f$ value
+        \If{$u = goal$}
+            \State \Return reconstruct\_path($u$)
+        \EndIf
+        \State Remove $u$ from open set
+        \For{each neighbor $v$ of $u$}
+            \State $tentative\_g \gets g[u] + w(u, v)$
+            \If{$tentative\_g < g[v]$}
+                \State $prev[v] \gets u$
+                \State $g[v] \gets tentative\_g$
+                \State $f[v] \gets g[v] + h(v, goal)$
+                \If{$v$ not in open set}
+                    \State Add $v$ to open set
+                \EndIf
+            \EndIf
+        \EndFor
+    \EndWhile
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Complexity Analysis}
+
+\begin{table}[H]
+    \centering
+    \caption{A* Algorithm Complexity}
+    \begin{tabular}{ll}
+        \toprule
+        \textbf{Metric} & \textbf{Complexity} \\
+        \midrule
+        Time Complexity & $O(E)$ (with perfect heuristic) to $O(b^d)$ \\
+        Space Complexity & $O(V)$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+where $b$ is the branching factor and $d$ is the depth of the solution.
+
+% ============================================
+% CHAPTER 3: SYSTEM DESIGN
+% ============================================
+\chapter{System Design}
+
+\section{Architecture Overview}
+
+The Graph Algorithm Visualizer follows a component-based architecture using React. The application is structured into distinct layers:
+
+\begin{enumerate}
+    \item \textbf{Presentation Layer:} React components for UI rendering
+    \item \textbf{Business Logic Layer:} Algorithm implementations and graph utilities
+    \item \textbf{Data Layer:} State management using React hooks
+\end{enumerate}
+
+\section{Technology Stack}
+
+\begin{table}[H]
+    \centering
+    \caption{Technology Stack}
+    \begin{tabular}{llp{8cm}}
+        \toprule
+        \textbf{Category} & \textbf{Technology} & \textbf{Purpose} \\
+        \midrule
+        Frontend Framework & React 18.2 & Component-based UI development \\
+        Language & TypeScript 5.3 & Type-safe JavaScript \\
+        Build Tool & Vite 5.0 & Fast development server and bundler \\
+        Styling & Tailwind CSS 3.4 & Utility-first CSS framework \\
+        Canvas & HTML5 Canvas & Graph rendering and interaction \\
+        Deployment & GitHub Pages & Static site hosting \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Component Structure}
+
+\subsection{Component Hierarchy}
+
+\begin{verbatim}
+App
+├── Header
+├── Toolbar
+├── GraphCanvas
+├── AlgorithmPanel
+├── MatrixDisplay
+├── StepLog
+└── About
+\end{verbatim}
+
+\subsection{Component Descriptions}
+
+\begin{table}[H]
+    \centering
+    \caption{Component Descriptions}
+    \begin{tabular}{lp{9cm}}
+        \toprule
+        \textbf{Component} & \textbf{Responsibility} \\
+        \midrule
+        App & Main application state and orchestration \\
+        Header & Application branding and navigation \\
+        Toolbar & Tool selection and graph settings \\
+        GraphCanvas & Interactive graph rendering with pan/zoom \\
+        AlgorithmPanel & Algorithm selection and playback controls \\
+        MatrixDisplay & Adjacency and distance matrix visualization \\
+        StepLog & Step-by-step algorithm execution log \\
+        About & Team and project information modal \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Data Structures}
+
+\subsection{Graph Representation}
+
+\begin{lstlisting}
+interface Graph {
+  nodes: Node[];
+  edges: Edge[];
+  isDirected: boolean;
+  isWeighted: boolean;
+}
+
+interface Node {
+  id: string;
+  label: string;
+  x: number;
+  y: number;
+}
+
+interface Edge {
+  id: string;
+  source: string;
+  target: string;
+  weight: number;
+}
+\end{lstlisting}
+
+\subsection{Algorithm Step}
+
+\begin{lstlisting}
+interface AlgorithmStep {
+  type: 'visit' | 'explore' | 'update' | 'complete';
+  nodeId?: string;
+  edgeId?: string;
+  message: string;
+  visited?: string[];
+  currentPath?: string[];
+  distances?: Map<string, number>;
+}
+\end{lstlisting}
+
+\section{State Management}
+
+The application uses React's built-in state management with the following key state variables:
+
+\begin{itemize}
+    \item \textbf{Graph State:} Current graph structure
+    \item \textbf{Selection State:} Selected nodes and edges
+    \item \textbf{Tool State:} Current active tool
+    \item \textbf{Visualization State:} Algorithm execution progress
+    \item \textbf{UI State:} Panel visibility and settings
+\end{itemize}
+
+% ============================================
+% CHAPTER 4: IMPLEMENTATION
+% ============================================
+\chapter{Implementation}
+
+\section{Project Structure}
+
+\begin{verbatim}
+GraphAlgorithmVisualize/
+├── public/
+│   └── favicon.svg
+├── src/
+│   ├── components/
+│   │   ├── About.tsx
+│   │   ├── AlgorithmPanel.tsx
+│   │   ├── GraphCanvas.tsx
+│   │   ├── Header.tsx
+│   │   ├── MatrixDisplay.tsx
+│   │   ├── StepLog.tsx
+│   │   └── Toolbar.tsx
+│   ├── types/
+│   │   └── index.ts
+│   ├── utils/
+│   │   ├── algorithmInfo.ts
+│   │   ├── algorithms.ts
+│   │   └── graphUtils.ts
+│   ├── App.tsx
+│   ├── index.css
+│   └── main.tsx
+├── docs/
+│   └── report.tex
+├── .github/
+│   └── workflows/
+│       └── deploy.yml
+├── index.html
+├── package.json
+├── tailwind.config.js
+├── tsconfig.json
+└── vite.config.ts
+\end{verbatim}
+
+\section{Key Features Implementation}
+
+\subsection{Interactive Canvas}
+
+The GraphCanvas component implements:
+
+\begin{itemize}
+    \item \textbf{Node Operations:} Add, move, delete, select
+    \item \textbf{Edge Operations:} Create connections, set weights
+    \item \textbf{Pan and Zoom:} Navigate large graphs
+    \item \textbf{Visual Feedback:} Color-coded states and animations
+\end{itemize}
+
+\subsubsection{Coordinate Transformation}
+
+\begin{lstlisting}
+const screenToCanvas = (screenX: number, screenY: number) => {
+  return {
+    x: (screenX - pan.x) / zoom,
+    y: (screenY - pan.y) / zoom,
+  };
+};
+\end{lstlisting}
+
+\subsection{Algorithm Visualization}
+
+Each algorithm returns a sequence of steps that are animated:
+
+\begin{lstlisting}
+interface AlgorithmResult {
+  steps: AlgorithmStep[];
+  path?: string[];
+  distances?: Map<string, number>;
+}
+\end{lstlisting}
+
+The visualization system:
+\begin{enumerate}
+    \item Executes the algorithm and records steps
+    \item Animates through steps at configurable speed
+    \item Updates node/edge colors based on state
+    \item Displays step-by-step explanations
+\end{enumerate}
+
+\subsection{Visual State Colors}
+
+\begin{table}[H]
+    \centering
+    \caption{Node Color States}
+    \begin{tabular}{llc}
+        \toprule
+        \textbf{State} & \textbf{Color} & \textbf{Hex Code} \\
+        \midrule
+        Default & Slate & \#475569 \\
+        Selected & Purple & \#d946ef \\
+        Visited & Blue & \#0ea5e9 \\
+        Current & Orange & \#f97316 \\
+        Path & Green & \#22c55e \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Algorithm Implementations}
+
+\subsection{BFS Implementation}
+
+\begin{lstlisting}
+function bfs(graph: Graph, startId: string): AlgorithmResult {
+  const steps: AlgorithmStep[] = [];
+  const visited = new Set<string>();
+  const queue: string[] = [startId];
+  const parent = new Map<string, string | null>();
+  
+  visited.add(startId);
+  parent.set(startId, null);
+  
+  while (queue.length > 0) {
+    const current = queue.shift()!;
+    steps.push({
+      type: 'visit',
+      nodeId: current,
+      message: `Visiting node ${getLabel(current)}`,
+      visited: Array.from(visited)
+    });
+    
+    for (const neighbor of getNeighbors(graph, current)) {
+      if (!visited.has(neighbor.id)) {
+        visited.add(neighbor.id);
+        parent.set(neighbor.id, current);
+        queue.push(neighbor.id);
+      }
+    }
+  }
+  
+  return { steps };
+}
+\end{lstlisting}
+
+\subsection{Dijkstra Implementation}
+
+\begin{lstlisting}
+function dijkstra(graph: Graph, startId: string): AlgorithmResult {
+  const steps: AlgorithmStep[] = [];
+  const distances = new Map<string, number>();
+  const previous = new Map<string, string | null>();
+  const unvisited = new Set<string>();
+  
+  // Initialize
+  for (const node of graph.nodes) {
+    distances.set(node.id, Infinity);
+    previous.set(node.id, null);
+    unvisited.add(node.id);
+  }
+  distances.set(startId, 0);
+  
+  while (unvisited.size > 0) {
+    // Find minimum distance node
+    let current = null;
+    let minDist = Infinity;
+    for (const id of unvisited) {
+      if (distances.get(id)! < minDist) {
+        minDist = distances.get(id)!;
+        current = id;
+      }
+    }
+    
+    if (current === null) break;
+    unvisited.delete(current);
+    
+    // Update neighbors
+    for (const edge of getEdgesFrom(graph, current)) {
+      const newDist = distances.get(current)! + edge.weight;
+      if (newDist < distances.get(edge.target)!) {
+        distances.set(edge.target, newDist);
+        previous.set(edge.target, current);
+      }
+    }
+  }
+  
+  return { steps, distances };
+}
+\end{lstlisting}
+
+\section{Deployment Configuration}
+
+\subsection{GitHub Actions Workflow}
+
+\begin{lstlisting}
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/deploy-pages@v4
+\end{lstlisting}
+
+% ============================================
+% CHAPTER 5: USER GUIDE
+% ============================================
+\chapter{User Guide}
+
+\section{Getting Started}
+
+\subsection{Accessing the Application}
+
+The application is available at:
+\begin{center}
+    \url{https://hambozo17.github.io/GraphAlgorithmVisualize/}
+\end{center}
+
+\subsection{Interface Overview}
+
+The interface consists of:
+\begin{enumerate}
+    \item \textbf{Header:} Application title and About button
+    \item \textbf{Toolbar:} Tools and graph settings
+    \item \textbf{Canvas:} Main graph editing area
+    \item \textbf{Algorithm Panel:} Algorithm selection and controls
+    \item \textbf{Bottom Panel:} Matrix display and step log
+\end{enumerate}
+
+\section{Creating a Graph}
+
+\subsection{Adding Nodes}
+
+\begin{enumerate}
+    \item Select the "Add Node" tool (or press \texttt{N})
+    \item Click anywhere on the canvas to place a node
+    \item Nodes are automatically labeled (A, B, C, ...)
+\end{enumerate}
+
+\subsection{Adding Edges}
+
+\begin{enumerate}
+    \item Select the "Add Edge" tool (or press \texttt{E})
+    \item Click on the source node
+    \item Click on the target node
+    \item For weighted graphs, enter the weight when prompted
+\end{enumerate}
+
+\subsection{Graph Settings}
+
+\begin{itemize}
+    \item \textbf{Directed:} Toggle arrow direction on edges
+    \item \textbf{Weighted:} Enable edge weights
+\end{itemize}
+
+\section{Running Algorithms}
+
+\subsection{Setup}
+
+\begin{enumerate}
+    \item Select an algorithm from the dropdown
+    \item Choose a start node (click while in Select mode)
+    \item For A*, also select an end node
+\end{enumerate}
+
+\subsection{Playback Controls}
+
+\begin{itemize}
+    \item \textbf{Play:} Start/resume animation
+    \item \textbf{Pause:} Pause animation
+    \item \textbf{Step Forward:} Advance one step
+    \item \textbf{Step Backward:} Go back one step
+    \item \textbf{Stop:} Reset visualization
+    \item \textbf{Speed Slider:} Adjust animation speed
+\end{itemize}
+
+\section{Keyboard Shortcuts}
+
+\begin{table}[H]
+    \centering
+    \caption{Keyboard Shortcuts}
+    \begin{tabular}{ll}
+        \toprule
+        \textbf{Key} & \textbf{Action} \\
+        \midrule
+        V & Select tool \\
+        M & Move tool \\
+        N & Add Node tool \\
+        E & Add Edge tool \\
+        D / Delete & Delete tool \\
+        Space & Play/Pause animation \\
+        Escape & Stop animation \\
+        Ctrl + Drag & Pan canvas \\
+        Scroll & Zoom in/out \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Pan and Zoom}
+
+\begin{itemize}
+    \item \textbf{Zoom:} Use scroll wheel or +/- buttons
+    \item \textbf{Pan:} Hold Ctrl and drag, or use middle mouse button
+    \item \textbf{Reset:} Click the reset view button
+\end{itemize}
+
+% ============================================
+% CHAPTER 6: TESTING
+% ============================================
+\chapter{Testing and Validation}
+
+\section{Test Cases}
+
+\subsection{Graph Operations}
+
+\begin{table}[H]
+    \centering
+    \caption{Graph Operation Tests}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{Test Case} & \textbf{Expected Result} & \textbf{Status} \\
+        \midrule
+        Add node & Node appears at click position & Pass \\
+        Add edge & Edge connects two nodes & Pass \\
+        Delete node & Node and connected edges removed & Pass \\
+        Move node & Node position updates & Pass \\
+        Toggle directed & Arrows appear/disappear & Pass \\
+        Toggle weighted & Weight labels shown/hidden & Pass \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Algorithm Tests}
+
+\begin{table}[H]
+    \centering
+    \caption{Algorithm Test Results}
+    \begin{tabular}{llll}
+        \toprule
+        \textbf{Algorithm} & \textbf{Test Graph} & \textbf{Expected} & \textbf{Status} \\
+        \midrule
+        BFS & 5-node connected & All nodes visited & Pass \\
+        DFS & 5-node connected & All nodes visited & Pass \\
+        Dijkstra & Weighted graph & Shortest path found & Pass \\
+        Bellman-Ford & Negative weights & Correct distances & Pass \\
+        A* & Grid-like graph & Optimal path found & Pass \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Browser Compatibility}
+
+\begin{table}[H]
+    \centering
+    \caption{Browser Compatibility}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{Browser} & \textbf{Version} & \textbf{Status} \\
+        \midrule
+        Google Chrome & 120+ & Fully Compatible \\
+        Mozilla Firefox & 120+ & Fully Compatible \\
+        Microsoft Edge & 120+ & Fully Compatible \\
+        Safari & 17+ & Fully Compatible \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+% ============================================
+% CHAPTER 7: CONCLUSION
+% ============================================
+\chapter{Conclusion}
+
+\section{Summary}
+
+The Graph Algorithm Visualizer successfully achieves its objectives of providing an interactive, educational tool for understanding graph algorithms. The application enables users to:
+
+\begin{itemize}
+    \item Create and manipulate graphs intuitively
+    \item Visualize algorithm execution step-by-step
+    \item Understand the differences between various algorithms
+    \item Learn through hands-on experimentation
+\end{itemize}
+
+\section{Key Achievements}
+
+\begin{enumerate}
+    \item \textbf{Comprehensive Algorithm Coverage:} Five fundamental algorithms implemented
+    \item \textbf{Interactive Visualization:} Real-time, animated algorithm execution
+    \item \textbf{Modern User Interface:} Clean, responsive design with dark theme
+    \item \textbf{Educational Value:} Step-by-step explanations and complexity information
+    \item \textbf{Accessibility:} Web-based, no installation required
+\end{enumerate}
+
+\section{Future Enhancements}
+
+Potential improvements for future versions:
+
+\begin{itemize}
+    \item Additional algorithms (Prim's, Kruskal's, Floyd-Warshall)
+    \item Graph import/export functionality
+    \item Mobile-responsive design
+    \item Collaborative editing features
+    \item Algorithm comparison mode
+    \item Custom graph templates
+\end{itemize}
+
+\section{Lessons Learned}
+
+This project provided valuable experience in:
+
+\begin{itemize}
+    \item Modern web development with React and TypeScript
+    \item Algorithm implementation and visualization
+    \item User interface design principles
+    \item Project collaboration and version control
+    \item Continuous deployment with GitHub Actions
+\end{itemize}
+
+% ============================================
+% REFERENCES
+% ============================================
+\begin{thebibliography}{9}
+
+\bibitem{cormen}
+Cormen, T. H., Leiserson, C. E., Rivest, R. L., \& Stein, C. (2022).
+\textit{Introduction to Algorithms} (4th ed.).
+MIT Press.
+
+\bibitem{sedgewick}
+Sedgewick, R., \& Wayne, K. (2011).
+\textit{Algorithms} (4th ed.).
+Addison-Wesley Professional.
+
+\bibitem{react}
+React Documentation.
+\url{https://react.dev/}
+
+\bibitem{typescript}
+TypeScript Documentation.
+\url{https://www.typescriptlang.org/docs/}
+
+\bibitem{vite}
+Vite Documentation.
+\url{https://vitejs.dev/}
+
+\bibitem{tailwind}
+Tailwind CSS Documentation.
+\url{https://tailwindcss.com/docs}
+
+\bibitem{dijkstra}
+Dijkstra, E. W. (1959).
+A note on two problems in connexion with graphs.
+\textit{Numerische Mathematik}, 1(1), 269-271.
+
+\bibitem{bellman}
+Bellman, R. (1958).
+On a routing problem.
+\textit{Quarterly of Applied Mathematics}, 16(1), 87-90.
+
+\bibitem{hart}
+Hart, P. E., Nilsson, N. J., \& Raphael, B. (1968).
+A Formal Basis for the Heuristic Determination of Minimum Cost Paths.
+\textit{IEEE Transactions on Systems Science and Cybernetics}, 4(2), 100-107.
+
+\end{thebibliography}
+
+% ============================================
+% APPENDIX
+% ============================================
+\appendix
+\chapter{Source Code Repository}
+
+The complete source code is available at:
+\begin{center}
+    \url{https://github.com/Hambozo17/GraphAlgorithmVisualize}
+\end{center}
+
+\section{Installation Instructions}
+
+\begin{enumerate}
+    \item Clone the repository:
+    \begin{verbatim}
+    git clone https://github.com/Hambozo17/GraphAlgorithmVisualize.git
+    \end{verbatim}
+    
+    \item Install dependencies:
+    \begin{verbatim}
+    cd GraphAlgorithmVisualize
+    npm install
+    \end{verbatim}
+    
+    \item Start development server:
+    \begin{verbatim}
+    npm run dev
+    \end{verbatim}
+    
+    \item Build for production:
+    \begin{verbatim}
+    npm run build
+    \end{verbatim}
+\end{enumerate}
+
+\chapter{Team Contributions}
+
+\begin{table}[H]
+    \centering
+    \caption{Team Member Contributions}
+    \begin{tabular}{lp{10cm}}
+        \toprule
+        \textbf{Team Member} & \textbf{Contributions} \\
+        \midrule
+        Mohamed Mohsen (221001411) & Algorithm implementations, Canvas rendering, State management \\
+        Farah Khaled (221001643) & UI/UX design, Component development, Testing \\
+        Omar Ahmed (221001335) & Documentation, Deployment, Code review \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\end{document}
