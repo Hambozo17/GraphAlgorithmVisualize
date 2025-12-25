@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
+import { Panel } from 'react-resizable-panels';
 import MatrixDisplay from './MatrixDisplay';
 import StepLog from './StepLog';
 import { Graph, AlgorithmStep } from '../types';
@@ -23,7 +23,6 @@ export default function ResizableBottomPanel({
 }: ResizableBottomPanelProps) {
   const [activeTab, setActiveTab] = useState<TabType>('steps');
   const [isMinimized, setIsMinimized] = useState(false);
-  const [savedSize, setSavedSize] = useState(30);
 
   const handleMinimize = () => {
     if (!isMinimized) {
@@ -33,10 +32,9 @@ export default function ResizableBottomPanel({
     }
   };
 
-  const handlePanelResize = (size: number) => {
-    if (size > 5) {
-      setSavedSize(size);
-      if (isMinimized) setIsMinimized(false);
+  const handlePanelResize = () => {
+    if (isMinimized) {
+      setIsMinimized(false);
     }
   };
 
