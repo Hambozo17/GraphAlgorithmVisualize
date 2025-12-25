@@ -76,12 +76,13 @@ export function bfs(graph: Graph, startId: string, endId?: string): AlgorithmRes
 }
 
 // DFS - Depth First Search
-export function dfs(graph: Graph, startId: string, detectCycles: boolean = true): AlgorithmResult {
+export function dfs(graph: Graph, startId: string, endId?: string, detectCycles: boolean = true): AlgorithmResult {
   const steps: AlgorithmStep[] = [];
   const visited = new Set<string>();
   const recursionStack = new Set<string>();
   const parents = new Map<string, string | null>();
   let hasCycle = false;
+  let foundEnd = false;
 
   function dfsRecursive(nodeId: string, parentId: string | null): boolean {
     visited.add(nodeId);
@@ -97,6 +98,19 @@ export function dfs(graph: Graph, startId: string, detectCycles: boolean = true)
       visited: new Set(visited),
       stack: Array.from(recursionStack),
     });
+
+    // Check if we reached the end node
+    if (endId && nodeId === endId) {
+      foundEnd = true;
+      const path = reconstructPath(parents, endId);
+      steps.push({
+        type: 'complete',
+        message: `Found target node ${node?.label}! Path length: ${path.length - 1}`,
+        currentPath: path,
+        visited: new Set(visited),
+      });
+      return true;
+    }
 
     const neighbors = getNeighbors(graph, nodeId);
     for (const { node: neighbor, edge } of neighbors) {
@@ -124,7 +138,6 @@ export function dfs(graph: Graph, startId: string, detectCycles: boolean = true)
             message: `Cycle detected! Back edge to ${neighbor.label}`,
             visited: new Set(visited),
           });
-          return true;
         }
       }
     }
@@ -136,11 +149,17 @@ export function dfs(graph: Graph, startId: string, detectCycles: boolean = true)
   parents.set(startId, null);
   dfsRecursive(startId, null);
 
-  steps.push({
-    type: 'complete',
-    message: hasCycle ? 'DFS complete - Cycle detected!' : 'DFS traversal complete - No cycle found',
-    visited: new Set(visited),
-  });
+  if (!foundEnd) {
+    steps.push({
+      type: 'complete',
+      message: hasCycle 
+        ? 'DFS complete - Cycle detected!' 
+        : endId 
+          ? `DFS complete - Target node not reachable`
+          : 'DFS traversal complete - No cycle found',
+      visited: new Set(visited),
+    });
+  }
 
   return { steps, hasCycle };
 }
@@ -500,7 +519,7 @@ export function runAlgorithm(
     case 'bfs':
       return bfs(graph, startId, endId);
     case 'dfs':
-      return dfs(graph, startId, true);
+      return dfs(graph, startId, endId, true);
     case 'dijkstra':
       return dijkstra(graph, startId, endId);
     case 'bellman-ford':

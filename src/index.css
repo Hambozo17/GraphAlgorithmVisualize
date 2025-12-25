@@ -148,3 +148,19 @@ code, .mono {
 .tooltip {
   @apply absolute z-50 px-2 py-1 text-xs bg-slate-900 text-white rounded shadow-lg pointer-events-none;
 }
+
+/* Resizing state - prevent text selection */
+body.resizing {
+  cursor: ns-resize !important;
+  user-select: none !important;
+}
+
+body.resizing * {
+  cursor: ns-resize !important;
+  user-select: none !important;
+}
+
+/* Panel resize handle */
+.resize-handle {
+  @apply cursor-ns-resize select-none;
+}

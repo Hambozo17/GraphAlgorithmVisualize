@@ -123,8 +123,7 @@
     \centering
     \vspace*{1cm}
     
-    {\Large\textbf{Pharos University in Alexandria}}\\[0.3cm]
-    {\large Faculty of Computer Science and Artificial Intelligence}\\[2cm]
+    {\Large\textbf{Nile University}}\\[2cm]
     
     \rule{\linewidth}{0.5mm}\\[0.5cm]
     {\Huge\bfseries\color{primarycolor} Graph Algorithm Visualizer}\\[0.3cm]
@@ -151,7 +150,7 @@
         \end{flushright}
     \end{minipage}\\[3cm]
     
-    {\large December 2024}\\[1cm]
+    {\large December 2025}\\[1cm]
     
     \vfill
 \end{titlepage}
@@ -173,8 +172,11 @@ The application is built using modern web technologies including React, TypeScri
 % ============================================
 % TABLE OF CONTENTS
 % ============================================
+\newpage
 \tableofcontents
+\newpage
 \listoffigures
+\newpage
 \listoftables
 
 % ============================================
@@ -867,6 +869,301 @@ function dijkstra(graph: Graph, startId: string): AlgorithmResult {
 }
 \end{lstlisting}
 
+\subsection{DFS Implementation}
+
+\begin{lstlisting}
+function dfs(graph: Graph, startId: string, 
+             detectCycles: boolean = true): AlgorithmResult {
+  const steps: AlgorithmStep[] = [];
+  const visited = new Set<string>();
+  const recursionStack = new Set<string>();
+  const parents = new Map<string, string | null>();
+  let hasCycle = false;
+
+  function dfsRecursive(nodeId: string, 
+                        parentId: string | null): boolean {
+    visited.add(nodeId);
+    recursionStack.add(nodeId);
+    parents.set(nodeId, parentId);
+
+    const node = getNodeById(graph, nodeId);
+
+    steps.push({
+      type: 'visit',
+      nodeId,
+      message: `Visiting node ${node?.label}`,
+      visited: new Set(visited),
+      stack: Array.from(recursionStack),
+    });
+
+    const neighbors = getNeighbors(graph, nodeId);
+    for (const { node: neighbor, edge } of neighbors) {
+      steps.push({
+        type: 'explore',
+        nodeId: neighbor.id,
+        edgeId: edge.id,
+        message: `Exploring edge to ${neighbor.label}`,
+        visited: new Set(visited),
+        stack: Array.from(recursionStack),
+      });
+
+      if (!visited.has(neighbor.id)) {
+        if (dfsRecursive(neighbor.id, nodeId)) {
+          return true;
+        }
+      } else if (detectCycles && recursionStack.has(neighbor.id)) {
+        // Cycle detected
+        hasCycle = true;
+        steps.push({
+          type: 'cycle-detected',
+          nodeId: neighbor.id,
+          edgeId: edge.id,
+          message: `Cycle detected at node ${neighbor.label}!`,
+          visited: new Set(visited),
+          stack: Array.from(recursionStack),
+        });
+        return true;
+      }
+    }
+
+    recursionStack.delete(nodeId);
+    steps.push({
+      type: 'backtrack',
+      nodeId,
+      message: `Backtracking from node ${node?.label}`,
+      visited: new Set(visited),
+      stack: Array.from(recursionStack),
+    });
+
+    return false;
+  }
+
+  dfsRecursive(startId, null);
+  return { steps, hasCycle };
+}
+\end{lstlisting}
+
+\subsection{Bellman-Ford Implementation}
+
+\begin{lstlisting}
+function bellmanFord(graph: Graph, startId: string, 
+                     endId?: string): AlgorithmResult {
+  const steps: AlgorithmStep[] = [];
+  const distances = new Map<string, number>();
+  const parents = new Map<string, string | null>();
+  const n = graph.nodes.length;
+
+  // Initialize distances
+  for (const node of graph.nodes) {
+    distances.set(node.id, node.id === startId ? 0 : Infinity);
+  }
+  parents.set(startId, null);
+
+  steps.push({
+    type: 'visit',
+    nodeId: startId,
+    message: `Starting Bellman-Ford from ${getNodeById(graph, startId)?.label}`,
+    distances: new Map(distances),
+  });
+
+  // Relax edges n-1 times
+  for (let i = 0; i < n - 1; i++) {
+    let updated = false;
+
+    steps.push({
+      type: 'visit',
+      message: `Iteration ${i + 1} of ${n - 1}`,
+      distances: new Map(distances),
+    });
+
+    for (const edge of graph.edges) {
+      const edgesToCheck = graph.isDirected
+        ? [{ from: edge.source, to: edge.target }]
+        : [{ from: edge.source, to: edge.target }, 
+           { from: edge.target, to: edge.source }];
+
+      for (const { from, to } of edgesToCheck) {
+        const fromDist = distances.get(from)!;
+        const toDist = distances.get(to)!;
+
+        if (fromDist !== Infinity && fromDist + edge.weight < toDist) {
+          distances.set(to, fromDist + edge.weight);
+          parents.set(to, from);
+          updated = true;
+
+          steps.push({
+            type: 'relax',
+            nodeId: to,
+            edgeId: edge.id,
+            message: `Relaxed edge: distance to ${getNodeById(graph, to)?.label} = ${fromDist + edge.weight}`,
+            distances: new Map(distances),
+          });
+        }
+      }
+    }
+
+    if (!updated) {
+      steps.push({
+        type: 'visit',
+        message: `No updates in iteration ${i + 1}, terminating early`,
+        distances: new Map(distances),
+      });
+      break;
+    }
+  }
+
+  // Check for negative cycles
+  let hasNegativeCycle = false;
+  for (const edge of graph.edges) {
+    const edgesToCheck = graph.isDirected
+      ? [{ from: edge.source, to: edge.target }]
+      : [{ from: edge.source, to: edge.target }, 
+         { from: edge.target, to: edge.source }];
+
+    for (const { from, to } of edgesToCheck) {
+      const fromDist = distances.get(from)!;
+      const toDist = distances.get(to)!;
+
+      if (fromDist !== Infinity && fromDist + edge.weight < toDist) {
+        hasNegativeCycle = true;
+        steps.push({
+          type: 'cycle-detected',
+          edgeId: edge.id,
+          message: 'Negative cycle detected!',
+          distances: new Map(distances),
+        });
+      }
+    }
+  }
+
+  if (hasNegativeCycle) {
+    steps.push({
+      type: 'complete',
+      message: 'Algorithm complete - Negative cycle exists!',
+      distances: new Map(distances),
+    });
+    return { steps, hasNegativeCycle: true, distances };
+  }
+
+  steps.push({
+    type: 'complete',
+    message: 'Bellman-Ford complete',
+    distances: new Map(distances),
+  });
+
+  return { steps, distances, hasNegativeCycle: false };
+}
+\end{lstlisting}
+
+\subsection{A* Implementation}
+
+\begin{lstlisting}
+function aStar(graph: Graph, startId: string, 
+               endId: string): AlgorithmResult {
+  const steps: AlgorithmStep[] = [];
+  const startNode = getNodeById(graph, startId)!;
+  const endNode = getNodeById(graph, endId)!;
+
+  // Heuristic: Euclidean distance
+  const heuristic = (nodeId: string): number => {
+    const node = getNodeById(graph, nodeId)!;
+    const dx = node.x - endNode.x;
+    const dy = node.y - endNode.y;
+    return Math.sqrt(dx * dx + dy * dy) / 50; // Scale factor
+  };
+
+  const gScore = new Map<string, number>();
+  const fScore = new Map<string, number>();
+  const parents = new Map<string, string | null>();
+  const openSet: string[] = [startId];
+  const closedSet = new Set<string>();
+
+  for (const node of graph.nodes) {
+    gScore.set(node.id, node.id === startId ? 0 : Infinity);
+    fScore.set(node.id, node.id === startId ? heuristic(startId) : Infinity);
+  }
+  parents.set(startId, null);
+
+  steps.push({
+    type: 'visit',
+    nodeId: startId,
+    message: `Starting A* from ${startNode.label} to ${endNode.label}`,
+    distances: new Map(gScore),
+  });
+
+  while (openSet.length > 0) {
+    // Get node with lowest fScore
+    openSet.sort((a, b) => (fScore.get(a) || Infinity) - 
+                           (fScore.get(b) || Infinity));
+    const currentId = openSet.shift()!;
+    const currentNode = getNodeById(graph, currentId)!;
+
+    closedSet.add(currentId);
+
+    steps.push({
+      type: 'visit',
+      nodeId: currentId,
+      message: `Processing ${currentNode.label} (g=${gScore.get(currentId)?.toFixed(1)}, f=${fScore.get(currentId)?.toFixed(1)})`,
+      distances: new Map(gScore),
+      visited: new Set(closedSet),
+    });
+
+    if (currentId === endId) {
+      const path = reconstructPath(parents, endId);
+      steps.push({
+        type: 'complete',
+        message: `Path found! Distance: ${gScore.get(endId)?.toFixed(1)}`,
+        currentPath: path,
+        distances: new Map(gScore),
+      });
+      return { steps, shortestPath: path, distances: gScore };
+    }
+
+    const neighbors = getNeighbors(graph, currentId);
+    for (const { node, edge } of neighbors) {
+      if (closedSet.has(node.id)) continue;
+
+      const weight = edge.weight || 1;
+      const tentativeG = (gScore.get(currentId) || 0) + weight;
+
+      steps.push({
+        type: 'explore',
+        nodeId: node.id,
+        edgeId: edge.id,
+        message: `Exploring ${node.label}: g=${tentativeG.toFixed(1)}, h=${heuristic(node.id).toFixed(1)}`,
+        distances: new Map(gScore),
+      });
+
+      if (tentativeG < (gScore.get(node.id) || Infinity)) {
+        parents.set(node.id, currentId);
+        gScore.set(node.id, tentativeG);
+        fScore.set(node.id, tentativeG + heuristic(node.id));
+
+        if (!openSet.includes(node.id)) {
+          openSet.push(node.id);
+        }
+
+        steps.push({
+          type: 'relax',
+          nodeId: node.id,
+          edgeId: edge.id,
+          message: `Updated ${node.label}: g=${tentativeG.toFixed(1)}, f=${fScore.get(node.id)?.toFixed(1)}`,
+          distances: new Map(gScore),
+        });
+      }
+    }
+  }
+
+  steps.push({
+    type: 'complete',
+    message: 'No path found!',
+    distances: new Map(gScore),
+  });
+
+  return { steps, distances: gScore };
+}
+\end{lstlisting}
+
 \section{Deployment Configuration}
 
 \subsection{GitHub Actions Workflow}
@@ -923,6 +1220,15 @@ The interface consists of:
     \item \textbf{Algorithm Panel:} Algorithm selection and controls
     \item \textbf{Bottom Panel:} Matrix display and step log
 \end{enumerate}
+
+\subsection{Application Interface}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{interface.png}
+    \caption{Graph Algorithm Visualizer main interface showing the interactive canvas, toolbar, and algorithm panel}
+    \label{fig:interface}
+\end{figure}
 
 \section{Creating a Graph}
 
@@ -1207,8 +1513,8 @@ The complete source code is available at:
         \textbf{Team Member} & \textbf{Contributions} \\
         \midrule
         Mohamed Mohsen (221001411) & Algorithm implementations, Canvas rendering, State management \\
-        Farah Khaled (221001643) & UI/UX design, Component development, Testing \\
-        Omar Ahmed (221001335) & Documentation, Deployment, Code review \\
+        Farah Khaled (221001643) & Algorithm implementations, UI/UX design, Component development, Testing \\
+        Omar Ahmed (221001335) & Algorithm implementations, Documentation, Deployment, Code review \\
         \bottomrule
     \end{tabular}
 \end{table}

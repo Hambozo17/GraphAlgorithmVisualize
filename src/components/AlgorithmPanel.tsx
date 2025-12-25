@@ -21,6 +21,7 @@ interface AlgorithmPanelProps {
   onSpeedChange: (speed: number) => void;
   currentStep: number;
   totalSteps: number;
+  onCompareMode: () => void;
 }
 
 const algorithms = [
@@ -51,6 +52,7 @@ export default function AlgorithmPanel({
   onSpeedChange,
   currentStep,
   totalSteps,
+  onCompareMode,
 }: AlgorithmPanelProps) {
   const info = algorithmInfo[selectedAlgorithm];
   const needsEndNode = selectedAlgorithm === 'astar' || selectedAlgorithm === 'dijkstra' || selectedAlgorithm === 'bfs';
@@ -171,7 +173,7 @@ export default function AlgorithmPanel({
           <div className="flex gap-2">
             <button
               onClick={onStepBackward}
-              disabled={!isPaused || currentStep <= 0}
+              disabled={currentStep <= 0 || (isRunning && !isPaused)}
               className="btn btn-secondary flex-1"
               title="Step Backward"
             >
@@ -198,7 +200,7 @@ export default function AlgorithmPanel({
             
             <button
               onClick={onStepForward}
-              disabled={!isPaused || currentStep >= totalSteps}
+              disabled={currentStep >= totalSteps - 1 || (isRunning && !isPaused)}
               className="btn btn-secondary flex-1"
               title="Step Forward"
             >
@@ -214,6 +216,15 @@ export default function AlgorithmPanel({
               ⏹️ Stop
             </button>
           )}
+          
+          {/* Compare Mode Button */}
+          <button
+            onClick={onCompareMode}
+            disabled={isRunning || nodes.length === 0}
+            className="btn w-full mt-3 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white shadow-lg hover:shadow-indigo-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            ⚔️ Compare Algorithms
+          </button>
         </div>
 
         {/* Algorithm Info */}

@@ -6,6 +6,7 @@ import AlgorithmPanel from './components/AlgorithmPanel';
 import MatrixDisplay from './components/MatrixDisplay';
 import StepLog from './components/StepLog';
 import About from './components/About';
+import CompareMode from './components/CompareMode';
 import { Graph, AlgorithmStep } from './types';
 import { 
   createEmptyGraph, 
@@ -48,10 +49,20 @@ export default function App() {
   
   // Matrix display
   const [showDistanceMatrix, setShowDistanceMatrix] = useState(false);
-  const [activeBottomTab, setActiveBottomTab] = useState<'matrix' | 'steps'>('steps');
+  const [activeBottomTab, setActiveBottomTab] = useState<'matrix' | 'steps'>('matrix');
+  
+  // Bottom panel state
+  const [bottomPanelHeight, setBottomPanelHeight] = useState(288); // 18rem = 288px
+  const [isBottomPanelCollapsed, setIsBottomPanelCollapsed] = useState(false);
+  const [isResizing, setIsResizing] = useState(false);
+  const minPanelHeight = 120;
+  const maxPanelHeight = 500;
   
   // About modal
   const [showAbout, setShowAbout] = useState(false);
+  
+  // Compare mode
+  const [showCompareMode, setShowCompareMode] = useState(false);
   
   // Animation ref
   const animationRef = useRef<number | null>(null);
@@ -132,6 +143,8 @@ export default function App() {
         const next = prev + 1;
         if (next >= steps.length) {
           setIsRunning(false);
+          // Stay at the last step so user can review
+          updateVisualization(prev);
           return prev;
         }
         updateVisualization(next);
@@ -311,6 +324,42 @@ export default function App() {
     }
   }, [currentStep, steps, updateVisualization]);
 
+  // Bottom panel resize handlers
+  const handleResizeStart = useCallback((e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsResizing(true);
+    document.body.classList.add('resizing');
+  }, []);
+
+  useEffect(() => {
+    if (!isResizing) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const windowHeight = window.innerHeight;
+      const newHeight = windowHeight - e.clientY;
+      const clampedHeight = Math.min(Math.max(newHeight, minPanelHeight), maxPanelHeight);
+      setBottomPanelHeight(clampedHeight);
+    };
+
+    const handleMouseUp = () => {
+      setIsResizing(false);
+      document.body.classList.remove('resizing');
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.body.classList.remove('resizing');
+    };
+  }, [isResizing]);
+
+  const toggleBottomPanel = useCallback(() => {
+    setIsBottomPanelCollapsed(prev => !prev);
+  }, []);
+
   return (
     <div className="h-screen flex flex-col bg-slate-900">
       <Header title="Graph Algorithm Visualizer" onShowAbout={() => setShowAbout(true)} />
@@ -328,8 +377,8 @@ export default function App() {
       
       <div className="flex-1 flex overflow-hidden">
         {/* Main canvas area */}
-        <div className="flex-1 flex flex-col">
-          <div className="flex-1 relative">
+        <div className="flex-1 flex flex-col min-h-0">
+          <div className="flex-1 relative min-h-0">
             <GraphCanvas
               graph={graph}
               selectedNodes={selectedNodes}
@@ -351,42 +400,94 @@ export default function App() {
             />
           </div>
           
-          {/* Bottom panel */}
-          <div className="h-72 glass border-t border-slate-700/50">
-            <div className="flex border-b border-slate-700/50">
-              <button
-                onClick={() => setActiveBottomTab('steps')}
-                className={`px-4 py-2 text-sm font-medium transition-colors ${
-                  activeBottomTab === 'steps'
-                    ? 'text-white border-b-2 border-primary-500'
-                    : 'text-slate-400 hover:text-white'
-                }`}
+          {/* Bottom panel - Resizable & Collapsible */}
+          <div 
+            className="glass border-t border-slate-700/50 flex flex-col transition-all duration-300 ease-in-out flex-shrink-0"
+            style={{ height: isBottomPanelCollapsed ? '40px' : `${bottomPanelHeight}px` }}
+          >
+            {/* Resize handle */}
+            {!isBottomPanelCollapsed && (
+              <div
+                onMouseDown={handleResizeStart}
+                className={`h-1 cursor-ns-resize bg-slate-700/50 hover:bg-primary-500/50 transition-colors flex items-center justify-center group ${isResizing ? 'bg-primary-500/70' : ''}`}
               >
-                📋 Execution Steps
-              </button>
-              <button
-                onClick={() => setActiveBottomTab('matrix')}
-                className={`px-4 py-2 text-sm font-medium transition-colors ${
-                  activeBottomTab === 'matrix'
-                    ? 'text-white border-b-2 border-primary-500'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                📊 Matrix View
-              </button>
-            </div>
+                <div className="w-10 h-0.5 bg-slate-500 group-hover:bg-primary-400 rounded-full transition-colors" />
+              </div>
+            )}
             
-            <div className="h-[calc(100%-41px)] overflow-auto">
-              {activeBottomTab === 'steps' ? (
-                <StepLog steps={steps} currentStep={currentStep} />
-              ) : (
-                <MatrixDisplay
-                  graph={graph}
-                  showDistance={showDistanceMatrix}
-                  onToggle={() => setShowDistanceMatrix(!showDistanceMatrix)}
-                />
+            {/* Tab header with collapse toggle */}
+            <div className="flex items-center border-b border-slate-700/50 bg-slate-800/50">
+              <button
+                onClick={toggleBottomPanel}
+                className="px-3 py-2 text-slate-400 hover:text-white transition-colors hover:bg-slate-700/50"
+                title={isBottomPanelCollapsed ? 'Expand panel' : 'Collapse panel'}
+              >
+                <svg 
+                  className={`w-4 h-4 transition-transform duration-300 ${isBottomPanelCollapsed ? 'rotate-180' : ''}`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              
+              <div className="flex flex-1">
+                <button
+                  onClick={() => { setActiveBottomTab('matrix'); if (isBottomPanelCollapsed) setIsBottomPanelCollapsed(false); }}
+                  className={`px-4 py-2 text-sm font-medium transition-colors flex items-center gap-2 ${
+                    activeBottomTab === 'matrix'
+                      ? 'text-white border-b-2 border-primary-500 bg-slate-700/30'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-700/20'
+                  }`}
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                  </svg>
+                  Adjacency Matrix
+                </button>
+                <button
+                  onClick={() => { setActiveBottomTab('steps'); if (isBottomPanelCollapsed) setIsBottomPanelCollapsed(false); }}
+                  className={`px-4 py-2 text-sm font-medium transition-colors flex items-center gap-2 ${
+                    activeBottomTab === 'steps'
+                      ? 'text-white border-b-2 border-primary-500 bg-slate-700/30'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-700/20'
+                  }`}
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                  </svg>
+                  Execution Steps
+                  {steps.length > 0 && (
+                    <span className="ml-1 px-1.5 py-0.5 text-xs bg-primary-500/20 text-primary-400 rounded-full">
+                      {currentStep + 1}/{steps.length}
+                    </span>
+                  )}
+                </button>
+              </div>
+              
+              {/* Panel size indicator */}
+              {!isBottomPanelCollapsed && (
+                <div className="px-3 text-xs text-slate-500">
+                  {graph.nodes.length} nodes • {graph.edges.length} edges
+                </div>
               )}
             </div>
+            
+            {/* Content area */}
+            {!isBottomPanelCollapsed && (
+              <div className="flex-1 overflow-auto">
+                {activeBottomTab === 'steps' ? (
+                  <StepLog steps={steps} currentStep={currentStep} />
+                ) : (
+                  <MatrixDisplay
+                    graph={graph}
+                    showDistance={showDistanceMatrix}
+                    onToggle={() => setShowDistanceMatrix(!showDistanceMatrix)}
+                  />
+                )}
+              </div>
+            )}
           </div>
         </div>
         
@@ -411,11 +512,22 @@ export default function App() {
           onSpeedChange={setSpeed}
           currentStep={currentStep}
           totalSteps={steps.length}
+          onCompareMode={() => setShowCompareMode(true)}
         />
       </div>
       
       {/* About Modal */}
       {showAbout && <About onClose={() => setShowAbout(false)} />}
+      
+      {/* Compare Mode */}
+      {showCompareMode && (
+        <CompareMode
+          graph={graph}
+          startNode={startNode}
+          endNode={endNode}
+          onClose={() => setShowCompareMode(false)}
+        />
+      )}
     </div>
   );
 }

@@ -32,14 +32,14 @@ export default function StepLog({ steps, currentStep }: StepLogProps) {
 
   if (steps.length === 0) {
     return (
-      <div className="p-4 text-center text-slate-500 text-sm">
+      <div className="h-full flex items-center justify-center text-slate-500 text-sm">
         Run an algorithm to see the execution steps
       </div>
     );
   }
 
   return (
-    <div className="p-4 space-y-2 max-h-64 overflow-y-auto">
+    <div className="p-4 space-y-2 h-full overflow-y-auto">
       {steps.slice(0, currentStep + 1).map((step, index) => (
         <div
           key={index}

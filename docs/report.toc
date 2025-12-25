@@ -1,0 +1,90 @@
+\contentsline {chapter}{Abstract}{1}{chapter*.1}%
+\contentsline {chapter}{\numberline {1}Introduction}{8}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Background and Motivation}{8}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Problem Statement}{8}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Objectives}{9}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Scope}{9}{section.1.4}%
+\contentsline {chapter}{\numberline {2}Theoretical Background}{10}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Graph Fundamentals}{10}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Definition}{10}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Types of Graphs}{10}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}Graph Representations}{11}{subsection.2.1.3}%
+\contentsline {subsubsection}{Adjacency Matrix}{11}{subsection.2.1.3}%
+\contentsline {subsubsection}{Adjacency List}{11}{subsection.2.1.3}%
+\contentsline {section}{\numberline {2.2}Breadth-First Search (BFS)}{11}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Algorithm Description}{11}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Pseudocode}{12}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Complexity Analysis}{12}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Applications}{12}{subsection.2.2.4}%
+\contentsline {section}{\numberline {2.3}Depth-First Search (DFS)}{13}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Algorithm Description}{13}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Pseudocode}{13}{subsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.3.3}Complexity Analysis}{13}{subsection.2.3.3}%
+\contentsline {subsection}{\numberline {2.3.4}Applications}{13}{subsection.2.3.4}%
+\contentsline {section}{\numberline {2.4}Dijkstra's Algorithm}{14}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Algorithm Description}{14}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Pseudocode}{14}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Complexity Analysis}{14}{subsection.2.4.3}%
+\contentsline {subsection}{\numberline {2.4.4}Limitations}{15}{subsection.2.4.4}%
+\contentsline {section}{\numberline {2.5}Bellman-Ford Algorithm}{15}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Algorithm Description}{15}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Pseudocode}{15}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}Complexity Analysis}{15}{subsection.2.5.3}%
+\contentsline {subsection}{\numberline {2.5.4}Advantages over Dijkstra}{16}{subsection.2.5.4}%
+\contentsline {section}{\numberline {2.6}A* Search Algorithm}{16}{section.2.6}%
+\contentsline {subsection}{\numberline {2.6.1}Algorithm Description}{16}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.2}Heuristics}{16}{subsection.2.6.2}%
+\contentsline {subsection}{\numberline {2.6.3}Pseudocode}{17}{subsection.2.6.3}%
+\contentsline {subsection}{\numberline {2.6.4}Complexity Analysis}{17}{subsection.2.6.4}%
+\contentsline {chapter}{\numberline {3}System Design}{18}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Architecture Overview}{18}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Technology Stack}{18}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Component Structure}{19}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Component Hierarchy}{19}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Component Descriptions}{19}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}Data Structures}{19}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Graph Representation}{19}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Algorithm Step}{20}{subsection.3.4.2}%
+\contentsline {section}{\numberline {3.5}State Management}{20}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Implementation}{22}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Project Structure}{22}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Key Features Implementation}{23}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Interactive Canvas}{23}{subsection.4.2.1}%
+\contentsline {subsubsection}{Coordinate Transformation}{23}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Algorithm Visualization}{24}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}Visual State Colors}{24}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Algorithm Implementations}{24}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}BFS Implementation}{24}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Dijkstra Implementation}{25}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}DFS Implementation}{26}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Bellman-Ford Implementation}{28}{subsection.4.3.4}%
+\contentsline {subsection}{\numberline {4.3.5}A* Implementation}{31}{subsection.4.3.5}%
+\contentsline {section}{\numberline {4.4}Deployment Configuration}{34}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}GitHub Actions Workflow}{34}{subsection.4.4.1}%
+\contentsline {chapter}{\numberline {5}User Guide}{36}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Getting Started}{36}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Accessing the Application}{36}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Interface Overview}{36}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}Application Interface}{37}{subsection.5.1.3}%
+\contentsline {section}{\numberline {5.2}Creating a Graph}{37}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Adding Nodes}{37}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Adding Edges}{37}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Graph Settings}{37}{subsection.5.2.3}%
+\contentsline {section}{\numberline {5.3}Running Algorithms}{38}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Setup}{38}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}Playback Controls}{38}{subsection.5.3.2}%
+\contentsline {section}{\numberline {5.4}Keyboard Shortcuts}{38}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Pan and Zoom}{39}{section.5.5}%
+\contentsline {chapter}{\numberline {6}Testing and Validation}{40}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Test Cases}{40}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}Graph Operations}{40}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}Algorithm Tests}{40}{subsection.6.1.2}%
+\contentsline {section}{\numberline {6.2}Browser Compatibility}{41}{section.6.2}%
+\contentsline {chapter}{\numberline {7}Conclusion}{42}{chapter.7}%
+\contentsline {section}{\numberline {7.1}Summary}{42}{section.7.1}%
+\contentsline {section}{\numberline {7.2}Key Achievements}{42}{section.7.2}%
+\contentsline {section}{\numberline {7.3}Future Enhancements}{43}{section.7.3}%
+\contentsline {section}{\numberline {7.4}Lessons Learned}{43}{section.7.4}%
+\contentsline {chapter}{\numberline {A}Source Code Repository}{45}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Installation Instructions}{45}{section.A.1}%
+\contentsline {chapter}{\numberline {B}Team Contributions}{46}{appendix.B}%

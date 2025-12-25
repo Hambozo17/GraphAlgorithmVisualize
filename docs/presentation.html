@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Algorithm Visualizer - Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+
+        .slide {
+            min-height: 100vh;
+            padding: 60px 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-bottom: 3px solid #6366f1;
+            page-break-after: always;
+        }
+
+        .slide-title {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            text-align: center;
+        }
+
+        .slide-title h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .slide-title h2 {
+            font-size: 1.8em;
+            font-weight: 400;
+            color: #c7d2fe;
+            margin-bottom: 40px;
+        }
+
+        .slide-title .course {
+            font-size: 1.4em;
+            color: #a5b4fc;
+            margin-bottom: 30px;
+        }
+
+        .slide-title .team {
+            font-size: 1.1em;
+            color: #e0e7ff;
+            line-height: 2;
+        }
+
+        .slide-title .date {
+            margin-top: 40px;
+            font-size: 1.2em;
+            color: #c7d2fe;
+        }
+
+        .slide-title .university {
+            font-size: 1.5em;
+            margin-bottom: 50px;
+            color: #fbbf24;
+            font-weight: 600;
+        }
+
+        h2 {
+            font-size: 2.5em;
+            color: #6366f1;
+            margin-bottom: 40px;
+            border-bottom: 3px solid #6366f1;
+            padding-bottom: 15px;
+        }
+
+        h3 {
+            font-size: 1.8em;
+            color: #a78bfa;
+            margin: 30px 0 20px 0;
+        }
+
+        ul {
+            font-size: 1.4em;
+            line-height: 2;
+            margin-left: 40px;
+        }
+
+        li {
+            margin-bottom: 15px;
+        }
+
+        .highlight {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 30px;
+        }
+
+        .three-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: #1e293b;
+            border-radius: 15px;
+            padding: 30px;
+            border-left: 5px solid #6366f1;
+        }
+
+        .card h4 {
+            color: #6366f1;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .card p, .card ul {
+            font-size: 1.1em;
+            color: #94a3b8;
+        }
+
+        .card ul {
+            margin-left: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            font-size: 1.2em;
+        }
+
+        th {
+            background: #6366f1;
+            color: white;
+            padding: 20px;
+            text-align: left;
+        }
+
+        td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #334155;
+        }
+
+        tr:nth-child(even) {
+            background: #1e293b;
+        }
+
+        .algorithm-box {
+            background: #1e293b;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        .algorithm-box h4 {
+            color: #fbbf24;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+
+        .complexity {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .tech-item {
+            background: #1e293b;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .tech-item h4 {
+            color: #6366f1;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .tech-item p {
+            color: #94a3b8;
+            font-size: 1em;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-item {
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .feature-icon {
+            font-size: 2em;
+        }
+
+        .feature-text {
+            font-size: 1.2em;
+        }
+
+        .contribution-table {
+            margin-top: 40px;
+        }
+
+        .slide-number {
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            font-size: 1em;
+            color: #64748b;
+        }
+
+        .centered {
+            text-align: center;
+        }
+
+        .big-text {
+            font-size: 1.6em;
+            line-height: 1.8;
+            color: #cbd5e1;
+        }
+
+        .thank-you {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            text-align: center;
+        }
+
+        .thank-you h2 {
+            font-size: 4em;
+            color: white;
+            border: none;
+        }
+
+        .thank-you p {
+            font-size: 1.5em;
+            color: #e0e7ff;
+            margin-top: 30px;
+        }
+
+        .thank-you a {
+            color: #fbbf24;
+            text-decoration: none;
+        }
+
+        @media print {
+            .slide {
+                page-break-after: always;
+                height: 100vh;
+            }
+        }
+
+        .screenshot {
+            max-width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            margin-top: 20px;
+        }
+
+        .formula {
+            background: #1e293b;
+            padding: 20px 40px;
+            border-radius: 10px;
+            font-size: 1.5em;
+            text-align: center;
+            margin: 20px 0;
+            font-family: 'Cambria Math', serif;
+            color: #fbbf24;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Slide 1: Title -->
+    <div class="slide slide-title">
+        <div class="university">Nile University</div>
+        <h1>Graph Algorithm Visualizer</h1>
+        <h2>An Interactive Web-Based Tool for Visualizing Graph Traversal and Shortest Path Algorithms</h2>
+        <div class="course">CSCI208: Design and Analysis of Algorithms</div>
+        <div class="team">
+            <strong>Team Members:</strong><br>
+            Mohamed Mohsen (221001411)<br>
+            Farah Khaled (221001643)<br>
+            Omar Ahmed (221001335)
+        </div>
+        <div class="date">December 2025</div>
+    </div>
+
+    <!-- Slide 2: Agenda -->
+    <div class="slide">
+        <h2>📋 Agenda</h2>
+        <ul>
+            <li>Introduction & Motivation</li>
+            <li>Objectives</li>
+            <li>Theoretical Background</li>
+            <li>Implemented Algorithms</li>
+            <li>System Design & Technology Stack</li>
+            <li>Key Features</li>
+            <li>Demo</li>
+            <li>Team Contributions</li>
+            <li>Conclusion & Future Work</li>
+        </ul>
+    </div>
+
+    <!-- Slide 3: Introduction -->
+    <div class="slide">
+        <h2>🎯 Introduction & Motivation</h2>
+        <div class="two-column">
+            <div>
+                <h3>The Problem</h3>
+                <ul>
+                    <li>Graph algorithms are <span class="highlight">abstract</span> and hard to visualize</li>
+                    <li>Static diagrams fail to show <span class="highlight">dynamic execution</span></li>
+                    <li>Students struggle with step-by-step understanding</li>
+                    <li>Limited interactive learning tools</li>
+                </ul>
+            </div>
+            <div>
+                <h3>Our Solution</h3>
+                <ul>
+                    <li><span class="highlight">Interactive</span> graph creation</li>
+                    <li><span class="highlight">Real-time</span> algorithm visualization</li>
+                    <li>Step-by-step execution control</li>
+                    <li>Educational explanations at each step</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Objectives -->
+    <div class="slide">
+        <h2>🎯 Project Objectives</h2>
+        <div class="feature-list">
+            <div class="feature-item">
+                <span class="feature-icon">🖱️</span>
+                <span class="feature-text">Interactive graph creation and manipulation</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">▶️</span>
+                <span class="feature-text">Step-by-step algorithm visualization</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">📚</span>
+                <span class="feature-text">Educational complexity analysis</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">🎨</span>
+                <span class="feature-text">Intuitive user experience</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">🌐</span>
+                <span class="feature-text">Web-based - no installation required</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Algorithms Overview -->
+    <div class="slide">
+        <h2>🔬 Implemented Algorithms</h2>
+        <div class="two-column">
+            <div>
+                <h3>Graph Traversal</h3>
+                <div class="algorithm-box">
+                    <h4>Breadth-First Search (BFS)</h4>
+                    <p>Explores level by level using a queue</p>
+                    <span class="complexity">Time: O(V + E)</span>
+                </div>
+                <div class="algorithm-box">
+                    <h4>Depth-First Search (DFS)</h4>
+                    <p>Explores as deep as possible before backtracking</p>
+                    <span class="complexity">Time: O(V + E)</span>
+                </div>
+            </div>
+            <div>
+                <h3>Shortest Path</h3>
+                <div class="algorithm-box">
+                    <h4>Dijkstra's Algorithm</h4>
+                    <p>Greedy approach for non-negative weights</p>
+                    <span class="complexity">Time: O((V + E) log V)</span>
+                </div>
+                <div class="algorithm-box">
+                    <h4>Bellman-Ford Algorithm</h4>
+                    <p>Handles negative weights, detects cycles</p>
+                    <span class="complexity">Time: O(V × E)</span>
+                </div>
+                <div class="algorithm-box">
+                    <h4>A* Search Algorithm</h4>
+                    <p>Heuristic-guided optimal pathfinding</p>
+                    <span class="complexity">Time: O(E) to O(b^d)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: BFS & DFS -->
+    <div class="slide">
+        <h2>🔍 BFS vs DFS</h2>
+        <div class="two-column">
+            <div class="card">
+                <h4>Breadth-First Search</h4>
+                <ul>
+                    <li>Uses <span class="highlight">Queue</span> (FIFO)</li>
+                    <li>Explores neighbors first</li>
+                    <li>Finds <span class="highlight">shortest path</span> in unweighted graphs</li>
+                    <li>Level-order traversal</li>
+                </ul>
+                <br>
+                <p><strong>Applications:</strong></p>
+                <ul>
+                    <li>Social network analysis</li>
+                    <li>Web crawling</li>
+                    <li>GPS navigation</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>Depth-First Search</h4>
+                <ul>
+                    <li>Uses <span class="highlight">Stack</span> (LIFO)</li>
+                    <li>Goes deep before backtracking</li>
+                    <li>Memory efficient</li>
+                    <li>Can detect <span class="highlight">cycles</span></li>
+                </ul>
+                <br>
+                <p><strong>Applications:</strong></p>
+                <ul>
+                    <li>Topological sorting</li>
+                    <li>Maze solving</li>
+                    <li>Cycle detection</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Dijkstra & Bellman-Ford -->
+    <div class="slide">
+        <h2>📍 Shortest Path Algorithms</h2>
+        <div class="two-column">
+            <div class="card">
+                <h4>Dijkstra's Algorithm</h4>
+                <ul>
+                    <li>Greedy approach</li>
+                    <li>Uses priority queue</li>
+                    <li>Only <span class="highlight">non-negative</span> weights</li>
+                    <li>Optimal for most cases</li>
+                </ul>
+                <div class="formula">
+                    dist[v] = min(dist[v], dist[u] + w(u,v))
+                </div>
+            </div>
+            <div class="card">
+                <h4>Bellman-Ford Algorithm</h4>
+                <ul>
+                    <li>Dynamic programming approach</li>
+                    <li>Handles <span class="highlight">negative weights</span></li>
+                    <li>Detects negative cycles</li>
+                    <li>Relaxes edges V-1 times</li>
+                </ul>
+                <div class="formula">
+                    Relax all edges |V| - 1 times
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: A* Algorithm -->
+    <div class="slide">
+        <h2>⭐ A* Search Algorithm</h2>
+        <div class="centered">
+            <div class="formula" style="font-size: 2em;">
+                f(n) = g(n) + h(n)
+            </div>
+        </div>
+        <div class="three-column" style="margin-top: 40px;">
+            <div class="card">
+                <h4>g(n)</h4>
+                <p>Actual cost from start to node n</p>
+            </div>
+            <div class="card">
+                <h4>h(n)</h4>
+                <p>Heuristic estimate to goal (Euclidean distance)</p>
+            </div>
+            <div class="card">
+                <h4>f(n)</h4>
+                <p>Total estimated cost through n</p>
+            </div>
+        </div>
+        <div style="margin-top: 40px;">
+            <h3>Why A*?</h3>
+            <ul>
+                <li>Combines best of Dijkstra and greedy search</li>
+                <li><span class="highlight">Optimal</span> with admissible heuristic</li>
+                <li>More efficient than Dijkstra for goal-directed search</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Slide 9: Technology Stack -->
+    <div class="slide">
+        <h2>🛠️ Technology Stack</h2>
+        <div class="tech-grid">
+            <div class="tech-item">
+                <h4>⚛️ React 18</h4>
+                <p>Component-based UI</p>
+            </div>
+            <div class="tech-item">
+                <h4>📘 TypeScript</h4>
+                <p>Type-safe JavaScript</p>
+            </div>
+            <div class="tech-item">
+                <h4>⚡ Vite</h4>
+                <p>Fast build tool</p>
+            </div>
+            <div class="tech-item">
+                <h4>🎨 Tailwind CSS</h4>
+                <p>Utility-first styling</p>
+            </div>
+            <div class="tech-item">
+                <h4>🖼️ HTML5 Canvas</h4>
+                <p>Graph rendering</p>
+            </div>
+            <div class="tech-item">
+                <h4>🚀 GitHub Pages</h4>
+                <p>Deployment</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: System Architecture -->
+    <div class="slide">
+        <h2>🏗️ System Architecture</h2>
+        <div class="three-column">
+            <div class="card">
+                <h4>Presentation Layer</h4>
+                <ul>
+                    <li>Header</li>
+                    <li>Toolbar</li>
+                    <li>GraphCanvas</li>
+                    <li>AlgorithmPanel</li>
+                    <li>MatrixDisplay</li>
+                    <li>StepLog</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>Business Logic</h4>
+                <ul>
+                    <li>BFS Algorithm</li>
+                    <li>DFS Algorithm</li>
+                    <li>Dijkstra</li>
+                    <li>Bellman-Ford</li>
+                    <li>A* Search</li>
+                    <li>Graph Utilities</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>Data Layer</h4>
+                <ul>
+                    <li>Graph State</li>
+                    <li>Node/Edge Data</li>
+                    <li>Algorithm Steps</li>
+                    <li>Visualization State</li>
+                    <li>UI Settings</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 11: Key Features -->
+    <div class="slide">
+        <h2>✨ Key Features</h2>
+        <div class="feature-list">
+            <div class="feature-item">
+                <span class="feature-icon">🖱️</span>
+                <span class="feature-text">Add, move, delete nodes and edges</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">↔️</span>
+                <span class="feature-text">Directed and undirected graphs</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">⚖️</span>
+                <span class="feature-text">Weighted and unweighted edges</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">🔍</span>
+                <span class="feature-text">Pan and zoom navigation</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">▶️⏸️</span>
+                <span class="feature-text">Play, pause, step controls</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">🎚️</span>
+                <span class="feature-text">Adjustable animation speed</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">📊</span>
+                <span class="feature-text">Adjacency matrix display</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">📝</span>
+                <span class="feature-text">Step-by-step execution log</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 12: Demo Screenshot -->
+    <div class="slide">
+        <h2>🖥️ Application Interface</h2>
+        <div class="centered">
+            <img src="interface.png" alt="Graph Algorithm Visualizer Interface" class="screenshot">
+        </div>
+    </div>
+
+    <!-- Slide 13: Visual States -->
+    <div class="slide">
+        <h2>🎨 Visual State Colors</h2>
+        <table>
+            <tr>
+                <th>State</th>
+                <th>Color</th>
+                <th>Meaning</th>
+            </tr>
+            <tr>
+                <td>Default</td>
+                <td style="color: #475569;">●</td>
+                <td>Unvisited node</td>
+            </tr>
+            <tr>
+                <td>Selected</td>
+                <td style="color: #d946ef;">●</td>
+                <td>User-selected start/end node</td>
+            </tr>
+            <tr>
+                <td>Visited</td>
+                <td style="color: #0ea5e9;">●</td>
+                <td>Already processed node</td>
+            </tr>
+            <tr>
+                <td>Current</td>
+                <td style="color: #f97316;">●</td>
+                <td>Currently processing node</td>
+            </tr>
+            <tr>
+                <td>Path</td>
+                <td style="color: #22c55e;">●</td>
+                <td>Part of the solution path</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Slide 14: Team Contributions -->
+    <div class="slide">
+        <h2>👥 Team Contributions</h2>
+        <table class="contribution-table">
+            <tr>
+                <th>Team Member</th>
+                <th>Contributions</th>
+            </tr>
+            <tr>
+                <td><strong>Mohamed Mohsen</strong><br>(221001411)</td>
+                <td>Algorithm implementations, Canvas rendering, State management</td>
+            </tr>
+            <tr>
+                <td><strong>Farah Khaled</strong><br>(221001643)</td>
+                <td>Algorithm implementations, UI/UX design, Component development, Testing</td>
+            </tr>
+            <tr>
+                <td><strong>Omar Ahmed</strong><br>(221001335)</td>
+                <td>Algorithm implementations, Documentation, Deployment, Code review</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Slide 15: Testing -->
+    <div class="slide">
+        <h2>✅ Testing & Validation</h2>
+        <div class="two-column">
+            <div>
+                <h3>Graph Operations</h3>
+                <table>
+                    <tr><th>Test Case</th><th>Status</th></tr>
+                    <tr><td>Add node</td><td style="color: #22c55e;">✓ Pass</td></tr>
+                    <tr><td>Add edge</td><td style="color: #22c55e;">✓ Pass</td></tr>
+                    <tr><td>Delete node</td><td style="color: #22c55e;">✓ Pass</td></tr>
+                    <tr><td>Move node</td><td style="color: #22c55e;">✓ Pass</td></tr>
+                </table>
+            </div>
+            <div>
+                <h3>Algorithm Tests</h3>
+                <table>
+                    <tr><th>Algorithm</th><th>Status</th></tr>
+                    <tr><td>BFS</td><td style="color: #22c55e;">✓ Pass</td></tr>
+                    <tr><td>DFS</td><td style="color: #22c55e;">✓ Pass</td></tr>
+                    <tr><td>Dijkstra</td><td style="color: #22c55e;">✓ Pass</td></tr>
+                    <tr><td>Bellman-Ford</td><td style="color: #22c55e;">✓ Pass</td></tr>
+                    <tr><td>A*</td><td style="color: #22c55e;">✓ Pass</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 16: Future Work -->
+    <div class="slide">
+        <h2>🚀 Future Enhancements</h2>
+        <div class="feature-list">
+            <div class="feature-item">
+                <span class="feature-icon">➕</span>
+                <span class="feature-text">Additional algorithms (Prim's, Kruskal's, Floyd-Warshall)</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">💾</span>
+                <span class="feature-text">Graph import/export functionality</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">📱</span>
+                <span class="feature-text">Mobile-responsive design</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">👥</span>
+                <span class="feature-text">Collaborative editing features</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">📋</span>
+                <span class="feature-text">Custom graph templates</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 17: Conclusion -->
+    <div class="slide">
+        <h2>📌 Conclusion</h2>
+        <div class="big-text centered" style="margin-top: 40px;">
+            <p>The <span class="highlight">Graph Algorithm Visualizer</span> successfully provides:</p>
+        </div>
+        <ul style="margin-top: 40px;">
+            <li>✅ <strong>5 fundamental algorithms</strong> implemented and visualized</li>
+            <li>✅ <strong>Interactive</strong> graph creation and manipulation</li>
+            <li>✅ <strong>Real-time</strong> step-by-step visualization</li>
+            <li>✅ <strong>Modern</strong> web technologies (React, TypeScript, Vite)</li>
+            <li>✅ <strong>Educational</strong> tool for learning graph algorithms</li>
+            <li>✅ <strong>Accessible</strong> - web-based, no installation required</li>
+        </ul>
+    </div>
+
+    <!-- Slide 18: Thank You -->
+    <div class="slide thank-you">
+        <h2>Thank You!</h2>
+        <p>Questions?</p>
+        <p style="margin-top: 50px;">
+            🌐 <a href="https://hambozo17.github.io/GraphAlgorithmVisualize/">Live Demo</a><br><br>
+            📂 <a href="https://github.com/Hambozo17/GraphAlgorithmVisualize">GitHub Repository</a>
+        </p>
+    </div>
+
+    <script>
+        // Add slide numbers
+        const slides = document.querySelectorAll('.slide');
+        slides.forEach((slide, index) => {
+            const slideNum = document.createElement('div');
+            slideNum.className = 'slide-number';
+            slideNum.textContent = `${index + 1} / ${slides.length}`;
+            slide.appendChild(slideNum);
+        });
+
+        // Keyboard navigation
+        let currentSlide = 0;
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                currentSlide = Math.min(currentSlide + 1, slides.length - 1);
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+            } else if (e.key === 'ArrowLeft') {
+                currentSlide = Math.max(currentSlide - 1, 0);
+                slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    </script>
+
+</body>
+</html>
