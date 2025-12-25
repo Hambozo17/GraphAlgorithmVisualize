@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { PanelGroup, Panel, PanelResizeHandle } from 'react-resizable-panels';
 import Header from './components/Header';
 import Toolbar from './components/Toolbar';
 import GraphCanvas from './components/GraphCanvas';
@@ -326,44 +325,38 @@ export default function App() {
       />
       
       <div className="flex-1 flex overflow-hidden">
-        {/* Main canvas area with resizable panels */}
-        <div className="flex-1">
-          <PanelGroup direction="vertical">
-            {/* Top panel - Canvas */}
-            <Panel id="canvas" defaultSize={70} minSize={30}>
-              <GraphCanvas
-                graph={graph}
-                selectedNodes={selectedNodes}
-                selectedEdges={selectedEdges}
-                highlightedNodes={highlightedNodes}
-                highlightedEdges={highlightedEdges}
-                visitedNodes={visitedNodes}
-                pathNodes={pathNodes}
-                pathEdges={pathEdges}
-                tool={tool}
-                onAddNode={handleAddNode}
-                onAddEdge={handleAddEdge}
-                onSelectNode={handleSelectNode}
-                onSelectEdge={handleSelectEdge}
-                onMoveNode={handleMoveNode}
-                onDeleteNode={handleDeleteNode}
-                onDeleteEdge={handleDeleteEdge}
-                onClearSelection={handleClearSelection}
-              />
-            </Panel>
-            
-            {/* Resize handle */}
-            <PanelResizeHandle className="h-1 bg-slate-700/50 hover:bg-primary-500/50 transition-colors cursor-row-resize" />
-            
-            {/* Bottom panel - Steps and Matrix */}
-            <ResizableBottomPanel
+        {/* Main canvas area with custom resizable bottom panel */}
+        <div className="flex-1 flex flex-col">
+          <div className="flex-1 relative">
+            <GraphCanvas
               graph={graph}
-              steps={steps}
-              currentStep={currentStep}
-              showDistanceMatrix={showDistanceMatrix}
-              onToggleMatrix={() => setShowDistanceMatrix(!showDistanceMatrix)}
+              selectedNodes={selectedNodes}
+              selectedEdges={selectedEdges}
+              highlightedNodes={highlightedNodes}
+              highlightedEdges={highlightedEdges}
+              visitedNodes={visitedNodes}
+              pathNodes={pathNodes}
+              pathEdges={pathEdges}
+              tool={tool}
+              onAddNode={handleAddNode}
+              onAddEdge={handleAddEdge}
+              onSelectNode={handleSelectNode}
+              onSelectEdge={handleSelectEdge}
+              onMoveNode={handleMoveNode}
+              onDeleteNode={handleDeleteNode}
+              onDeleteEdge={handleDeleteEdge}
+              onClearSelection={handleClearSelection}
             />
-          </PanelGroup>
+          </div>
+          
+          {/* Resizable bottom panel */}
+          <ResizableBottomPanel
+            graph={graph}
+            steps={steps}
+            currentStep={currentStep}
+            showDistanceMatrix={showDistanceMatrix}
+            onToggleMatrix={() => setShowDistanceMatrix(!showDistanceMatrix)}
+          />
         </div>
         
         {/* Right panel - Algorithm controls */}
