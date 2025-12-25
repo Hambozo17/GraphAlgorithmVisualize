@@ -1,10 +1,10 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
+import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import Header from './components/Header';
 import Toolbar from './components/Toolbar';
 import GraphCanvas from './components/GraphCanvas';
 import AlgorithmPanel from './components/AlgorithmPanel';
-import MatrixDisplay from './components/MatrixDisplay';
-import StepLog from './components/StepLog';
+import ResizableBottomPanel from './components/ResizableBottomPanel';
 import About from './components/About';
 import { Graph, AlgorithmStep } from './types';
 import { 
@@ -48,7 +48,6 @@ export default function App() {
   
   // Matrix display
   const [showDistanceMatrix, setShowDistanceMatrix] = useState(false);
-  const [activeBottomTab, setActiveBottomTab] = useState<'matrix' | 'steps'>('steps');
   
   // About modal
   const [showAbout, setShowAbout] = useState(false);
@@ -327,67 +326,44 @@ export default function App() {
       />
       
       <div className="flex-1 flex overflow-hidden">
-        {/* Main canvas area */}
-        <div className="flex-1 flex flex-col">
-          <div className="flex-1 relative">
-            <GraphCanvas
-              graph={graph}
-              selectedNodes={selectedNodes}
-              selectedEdges={selectedEdges}
-              highlightedNodes={highlightedNodes}
-              highlightedEdges={highlightedEdges}
-              visitedNodes={visitedNodes}
-              pathNodes={pathNodes}
-              pathEdges={pathEdges}
-              tool={tool}
-              onAddNode={handleAddNode}
-              onAddEdge={handleAddEdge}
-              onSelectNode={handleSelectNode}
-              onSelectEdge={handleSelectEdge}
-              onMoveNode={handleMoveNode}
-              onDeleteNode={handleDeleteNode}
-              onDeleteEdge={handleDeleteEdge}
-              onClearSelection={handleClearSelection}
-            />
-          </div>
-          
-          {/* Bottom panel */}
-          <div className="h-72 glass border-t border-slate-700/50">
-            <div className="flex border-b border-slate-700/50">
-              <button
-                onClick={() => setActiveBottomTab('steps')}
-                className={`px-4 py-2 text-sm font-medium transition-colors ${
-                  activeBottomTab === 'steps'
-                    ? 'text-white border-b-2 border-primary-500'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                📋 Execution Steps
-              </button>
-              <button
-                onClick={() => setActiveBottomTab('matrix')}
-                className={`px-4 py-2 text-sm font-medium transition-colors ${
-                  activeBottomTab === 'matrix'
-                    ? 'text-white border-b-2 border-primary-500'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                📊 Matrix View
-              </button>
-            </div>
+        {/* Main canvas area with resizable panels */}
+        <div className="flex-1">
+          <PanelGroup direction="vertical">
+            {/* Top panel - Canvas */}
+            <Panel id="canvas" defaultSize={70} minSize={30}>
+              <GraphCanvas
+                graph={graph}
+                selectedNodes={selectedNodes}
+                selectedEdges={selectedEdges}
+                highlightedNodes={highlightedNodes}
+                highlightedEdges={highlightedEdges}
+                visitedNodes={visitedNodes}
+                pathNodes={pathNodes}
+                pathEdges={pathEdges}
+                tool={tool}
+                onAddNode={handleAddNode}
+                onAddEdge={handleAddEdge}
+                onSelectNode={handleSelectNode}
+                onSelectEdge={handleSelectEdge}
+                onMoveNode={handleMoveNode}
+                onDeleteNode={handleDeleteNode}
+                onDeleteEdge={handleDeleteEdge}
+                onClearSelection={handleClearSelection}
+              />
+            </Panel>
             
-            <div className="h-[calc(100%-41px)] overflow-auto">
-              {activeBottomTab === 'steps' ? (
-                <StepLog steps={steps} currentStep={currentStep} />
-              ) : (
-                <MatrixDisplay
-                  graph={graph}
-                  showDistance={showDistanceMatrix}
-                  onToggle={() => setShowDistanceMatrix(!showDistanceMatrix)}
-                />
-              )}
-            </div>
-          </div>
+            {/* Resize handle */}
+            <PanelResizeHandle className="h-1 bg-slate-700/50 hover:bg-primary-500/50 transition-colors cursor-row-resize" />
+            
+            {/* Bottom panel - Steps and Matrix */}
+            <ResizableBottomPanel
+              graph={graph}
+              steps={steps}
+              currentStep={currentStep}
+              showDistanceMatrix={showDistanceMatrix}
+              onToggleMatrix={() => setShowDistanceMatrix(!showDistanceMatrix)}
+            />
+          </PanelGroup>
         </div>
         
         {/* Right panel - Algorithm controls */}

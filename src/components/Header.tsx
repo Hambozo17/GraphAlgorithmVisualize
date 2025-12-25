@@ -63,7 +63,7 @@ export default function Header({ title, onShowAbout }: HeaderProps) {
           </button>
           
           <a
-            href="https://github.com"
+            href="https://github.com/Hambozo17/GraphAlgorithmVisualize"
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-ghost text-sm"
